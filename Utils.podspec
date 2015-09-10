@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Utils"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "Usefull statics methods"
 
   s.description  = <<-DESC
@@ -70,6 +70,7 @@ Pod::Spec.new do |s|
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
   # s.osx.deployment_target = "10.7"
+  s.watchos.deployment_target = "2.0"
 
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -78,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/rapinto/Utils.git", :tag => "1.0.0" }
+  s.source       = { :git => "https://github.com/rapinto/Utils.git", :tag => s.version }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
