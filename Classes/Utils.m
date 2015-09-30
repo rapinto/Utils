@@ -107,7 +107,7 @@
 + (NSString *)URLDecodeString:(NSString*)_EncodedString
 {
     NSString* lResult = [_EncodedString stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    lResult = [lResult stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    lResult = [lResult stringByRemovingPercentEncoding];
     return lResult;
 }
 

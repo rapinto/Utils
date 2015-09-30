@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Utils"
-  s.version      = "1.0.2"
+  s.version      = "1.0.3"
   s.summary      = "Usefull statics methods"
 
   s.description  = <<-DESC
