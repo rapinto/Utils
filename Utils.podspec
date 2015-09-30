@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Utils"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "Usefull statics methods"
 
   s.description  = <<-DESC
@@ -65,7 +65,8 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  s.platform     = :ios, "7.0"
+    s.watchos.deployment_target = "2.0"
+    s.ios.deployment_target = "5.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -117,7 +118,8 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  s.frameworks = "UIKit"
+    s.watchos.frameworks = 'UIKit'
+    s.ios.frameworks = 'UIKit'
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
