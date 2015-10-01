@@ -114,6 +114,106 @@
 
 
 #pragma mark -
+#pragma mark String Validating Methods
+
+
++ (void)testEmailValidation
+{
+    NSLog(@"Validate %@ (VALID): %i", @"david.jones@proseware.com", [Utils validateEmail:@"david.jones@proseware.com"]);
+    NSLog(@"Validate %@ (VALID): %i", @"d.j@server1.proseware.com", [Utils validateEmail:@"d.j@server1.proseware.com"]);
+    NSLog(@"Validate %@ (VALID): %i", @"jones@ms1.proseware.com", [Utils validateEmail:@"jones@ms1.proseware.com"]);
+    NSLog(@"Validate %@ (VALID): %i", @"j@proseware.com9", [Utils validateEmail:@"j@proseware.com9"]);
+    NSLog(@"Validate %@ (VALID): %i", @"js#internal@proseware.com", [Utils validateEmail:@"js#internal@proseware.com"]);
+    NSLog(@"Validate %@ (VALID): %i", @"j_9@[129.126.118.1]", [Utils validateEmail:@"j_9@[129.126.118.1]"]);
+    NSLog(@"Validate %@ (VALID): %i", @"js@proseware.com9", [Utils validateEmail:@"js@proseware.com9"]);
+    NSLog(@"Validate %@ (VALID): %i", @"j.s@server1.proseware.com", [Utils validateEmail:@"j.s@server1.proseware.com"]);
+    NSLog(@"Validate %@ (VALID): %i", @"js@contoso.ä¸­å›½", [Utils validateEmail:@"js@contoso.ä¸­å›½"]);
+    NSLog(@"Validate %@ (VALID): %i", @"\"j\\\"s\\\"\"@proseware.com", [Utils validateEmail:@"\"j\\\"s\\\"\"@proseware.com"]);
+    NSLog(@"Validate %@ (INVALID): %i", @"js@proseware..com", [Utils validateEmail:@"js@proseware..com"]);
+    NSLog(@"Validate %@ (INVALID): %i", @"js*@proseware.com", [Utils validateEmail:@"js*@proseware.com"]);
+    NSLog(@"Validate %@ (INVALID): %i", @"j..s@proseware.com", [Utils validateEmail:@"j..s@proseware.com"]);
+    NSLog(@"Validate %@ (INVALID): %i", @"j.@server1.proseware.com", [Utils validateEmail:@"j.@server1.proseware.com"]);
+}
+
+
++ (BOOL)validateEmail:(NSString*)_Email
+{
+    // First, we check that there's one @ symbol,
+    // and that the lengths are right.
+    NSString* lEmailRegex =  @"^[^@]{1,64}@[^@]{1,255}$";
+    NSPredicate* lEmailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", lEmailRegex];
+    
+    if (![lEmailTest evaluateWithObject:_Email])
+    {
+        return NO;
+    }
+    
+    
+    // Split it into sections to make life easier
+    NSArray* lSplitedEmail = [_Email componentsSeparatedByString:@"@"];
+    if ([lSplitedEmail count] > 1)
+    {
+        NSArray* lSplitedLocalEmail = [[lSplitedEmail objectAtIndex:0] componentsSeparatedByString:@"."];
+        NSString* lLocalRegex =  @"^(([A-Za-z0-9!#$%&'*+/=?^_`{|}~-][A-Za-z0-9!#$%&↪'*+/=?^_`{|}~.-]{0,63})|(\"[^(\\|\")]{0,62}\"))$";
+        NSPredicate* lLocalTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", lLocalRegex];
+        for (NSString* aString in lSplitedLocalEmail)
+        {
+            if (![lLocalTest evaluateWithObject:aString])
+            {
+                return NO;
+            }
+        }
+        
+        // Check if domain is IP. If not,
+        // it should be valid domain name
+        NSString* lDomainRegex =  @"^[?[0-9.]+]?$";
+        NSPredicate* lDomainTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", lDomainRegex];
+        
+        if (![lDomainTest evaluateWithObject:[lSplitedEmail objectAtIndex:1]])
+        {
+            NSArray* lSplitedDomain = [[lSplitedEmail objectAtIndex:1] componentsSeparatedByString:@"."];
+            
+            if ([lSplitedDomain count] < 2)
+            {
+                return NO;
+            }
+            
+            
+            for (int i = 0; i < [lSplitedDomain count]; i++)
+            {
+                NSString* lEvaluatedStr = [lSplitedDomain objectAtIndex:i];
+                
+                if (i == 0 && [[lEvaluatedStr substringToIndex:1] isEqualToString:@"["])
+                {
+                    lEvaluatedStr = [lEvaluatedStr substringFromIndex:1];
+                }
+                
+                if (i == [lSplitedDomain count] - 1 && [lEvaluatedStr length] > 0 && [[lEvaluatedStr substringFromIndex:[lEvaluatedStr length] - 1] isEqualToString:@"]"])
+                {
+                    lEvaluatedStr = [lEvaluatedStr substringToIndex:[lEvaluatedStr length] - 1];
+                }
+                
+                NSString* lDomainIPRegexSTR =  @"^(([A-Za-z0-9]{0,61}[A-Za-z0-9])|↪([A-Za-z0-9]+))$";
+                NSPredicate* lDomainIPRegex = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", lDomainIPRegexSTR];
+                
+                if (![lDomainIPRegex evaluateWithObject:lEvaluatedStr])
+                {
+                    return NO;
+                }
+            }
+        }
+    }
+    else
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+
+#pragma mark -
 #pragma mark Attributed String size calculator
 
 

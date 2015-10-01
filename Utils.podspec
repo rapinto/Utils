@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Utils"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Usefull statics methods"
 
   s.description  = <<-DESC
@@ -64,14 +64,12 @@ Pod::Spec.new do |s|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  # s.platform     = :ios
     s.watchos.deployment_target = "2.0"
     s.ios.deployment_target = "5.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
   # s.osx.deployment_target = "10.7"
-  s.watchos.deployment_target = "2.0"
 
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

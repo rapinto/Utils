@@ -42,6 +42,12 @@
 + (float)get_JPG_MO_WeightForImage:(UIImage*)_Image
                        compression:(float)_JPGCompression;
 
+
+#pragma mark - String Validating Methods
++ (void)testEmailValidation;
++ (BOOL)validateEmail:(NSString*)_Email;
+
+
 @end
 
 
