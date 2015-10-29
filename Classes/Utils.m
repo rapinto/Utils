@@ -254,4 +254,60 @@
 
 
 
+#pragma mark -
+#pragma mark Push Methods
+
+
+
++ (NSString*)extractCategoryFromRemoteNotification:(NSDictionary*)userInfo
+{
+    if (!userInfo)
+    {
+        NSLog(@"ERROR : userInfo is nil");
+        return nil;
+    }
+    
+    
+    if ([userInfo isKindOfClass:[NSDictionary class]])
+    {
+        if (![userInfo objectForKey:@"aps"])
+        {
+            NSLog(@"ERROR : aps is nil");
+            return nil;
+        }
+        
+        if ([[userInfo objectForKey:@"aps"] isKindOfClass:[NSDictionary class]])
+        {
+            NSDictionary* lAPSDictionary = [userInfo objectForKey:@"aps"];
+            
+            if (![lAPSDictionary objectForKey:@"category"])
+            {
+                NSLog(@"ERROR : category is nil");
+                return nil;
+            }
+            
+            if ([[lAPSDictionary objectForKey:@"category"] isKindOfClass:[NSString class]])
+            {
+                return (NSString*)[lAPSDictionary objectForKey:@"category"];
+            }
+            else
+            {
+                NSLog(@"ERROR : category isn't a NSString");
+                return nil;
+            }
+        }
+        else
+        {
+            NSLog(@"ERROR : aps isn't a NSDictionary");
+            return nil;
+        }
+    }
+    else
+    {
+        NSLog(@"ERROR : userInfo isn't a NSDictionary");
+        return nil;
+    }
+}
+
+
 @end

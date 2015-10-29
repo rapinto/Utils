@@ -43,9 +43,15 @@
                        compression:(float)_JPGCompression;
 
 
+
 #pragma mark - String Validating Methods
 + (void)testEmailValidation;
 + (BOOL)validateEmail:(NSString*)_Email;
+
+
+
+#pragma mark - Push Methods
++ (NSString*)extractCategoryFromRemoteNotification:(NSDictionary*)userInfo;
 
 
 @end
